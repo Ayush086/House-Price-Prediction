@@ -1,11 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Price Prediction</title>
+    <meta charset="UTF-8" />
+    <title>Boston House Price Prediction</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            font-family: 'Arimo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .login h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #5d9cec;
+            outline: none;
+            box-shadow: 0 0 5px rgba(93, 156, 236, 0.5);
+        }
+
+        .btn {
+            background-color: #5d9cec;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #4a89dc;
+        }
+
+        .btn:active {
+            background-color: #3a77c3;
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        /* Fade-out effect */
+        .fade {
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .fade-out {
+            opacity: 0;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>It's a home page</h1>
+    <div class="login">
+        <h1>Boston House Price Prediction</h1>
+
+        <!-- Main Input For Receiving Query to our ML -->
+        <form action="{{ url_for('predict')}}" method="post" class="form-grid">
+            <div class="form-group">
+                <label for="CRIM">CRIM</label>
+                <input type="text" id="CRIM" name="CRIM" required />
+            </div>
+            <div class="form-group">
+                <label for="ZN">ZN</label>
+                <input type="text" id="ZN" name="ZN" required />
+            </div>
+            <div class="form-group">
+                <label for="INDUS">INDUS</label>
+                <input type="text" id="INDUS" name="INDUS" required />
+            </div>
+            <div class="form-group">
+                <label for="CHAS">CHAS</label>
+                <input type="text" id="CHAS" name="CHAS" required />
+            </div>
+            <div class="form-group">
+                <label for="NOX">NOX</label>
+                <input type="text" id="NOX" name="NOX" required />
+            </div>
+            <div class="form-group">
+                <label for="RM">RM</label>
+                <input type="text" id="RM" name="RM" required />
+            </div>
+            <div class="form-group">
+                <label for="Age">Age</label>
+                <input type="text" id="Age" name="Age" required />
+            </div>
+            <div class="form-group">
+                <label for="DIS">DIS</label>
+                <input type="text" id="DIS" name="DIS" required />
+            </div>
+            <div class="form-group">
+                <label for="RAD">RAD</label>
+                <input type="text" id="RAD" name="RAD" required />
+            </div>
+            <div class="form-group">
+                <label for="TAX">TAX</label>
+                <input type="text" id="TAX" name="TAX" required />
+            </div>
+            <div class="form-group">
+                <label for="PTRATIO">PTRATIO</label>
+                <input type="text" id="PTRATIO" name="PTRATIO" required />
+            </div>
+            <div class="form-group">
+                <label for="B">B</label>
+                <input type="text" id="B" name="B" required />
+            </div>
+            <div class="form-group">
+                <label for="LSTAT">LSTAT</label>
+                <input type="text" id="LSTAT" name="LSTAT" required />
+            </div>
+            <button type="submit" class="btn">Predict</button>
+        </form>
+
+        <!-- Prediction Text -->
+        <div id="prediction-text" class="fade">
+            {{prediction_text}} $
+        </div>
+    </div>
+
+    <script>
+        // Fade out prediction text after 5-7 seconds
+        setTimeout(function () {
+            const predictionText = document.getElementById('prediction-text');
+            predictionText.classList.add('fade-out');
+        }, 5000);  // Fade out after 5 seconds (5000ms)
+    </script>
 </body>
+
 </html>

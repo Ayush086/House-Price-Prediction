@@ -32,6 +32,18 @@ def predict_api():
     return jsonify(output[0])
 
 
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = [float(x) for x in request.form.values()] # converting each value into float and saving them in a list
+    final_ip = std.transform(np.array(data).reshape(1, -1)) # transforming data
+    print(final_ip)
+
+    output = regmodel.predict(final_ip)[0]
+
+    return render_template("home.html", prediction_text = "Predicted House Price: {}".format(output))
+
+
+
 
 # main function
 if __name__ == '__main__':
